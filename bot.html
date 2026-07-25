@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice Assistant | A New Me</title>
+
+<style>
+:root {
+  --brand: #1f3c88;
+  --bg: #eef2f7;
+  --text: #1f2937;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    text-align: center;
+    color: var(--text);
+}
+
+/* HEADER MATCHED */
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--brand);
+  color: white;
+  padding: 15px;
+}
+
+.back-btn {
+  background: white;
+  color: var(--brand);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.container {
+    padding: 30px;
+}
+
+button {
+    background: var(--brand);
+    color: white;
+    border: none;
+    padding: 14px 22px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.status {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.transcript {
+    margin-top: 20px;
+    color: #333;
+    white-space: pre-line;
+    text-align: left;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.notice {
+    background: #fff3cd;
+    color: #856404;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MATCHED HEADER -->
+<header class="app-header">
+  <button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+  <h2>🗣 Reentry Assistant</h2>
+</header>
+
+<div class="container">
+
+<div id="deviceNotice" class="notice"></div>
+
+<p>Talk to me. What do you need right now?</p>
+
+<div class="notice">
+<strong>How it works:</strong><br><br>
+This assistant listens for keywords and guides you automatically.<br><br>
+Try saying:<br>
+• Job or Work<br>
+• Housing or Rent<br>
+• ID or License<br>
+• Money or Budget<br>
+• School or GED<br>
+• Family
+</div>
+
+<button onclick="startListening()">🎤 Tap to Speak</button>
+
+<div class="status" id="status"></div>
+<div class="transcript" id="transcript"></div>
+
+</div>
+
+<script>
+
+const statusDiv = document.getElementById("status");
+const transcriptDiv = document.getElementById("transcript");
+const deviceNotice = document.getElementById("deviceNotice");
+
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+/* DEVICE NOTICE */
+if (isIOS) {
+    deviceNotice.innerHTML = `
+        <strong>📱 iPhone Mode</strong><br><br>
+        • Tap the microphone to speak<br>
+        • Responses appear in text<br>
+        • Voice playback limited by iOS
+    `;
+} else {
+    deviceNotice.innerHTML = `
+        <strong>🤖 Android / Desktop Mode</strong><br><br>
+        • Tap the microphone to speak<br>
+        • Responses play out loud
+    `;
+}
+
+/* SPEAK FUNCTION */
+function speak(text, redirectPage) {
+
+    transcriptDiv.innerText += "\nAI: " + text;
+
+    if (isIOS) {
+        if (redirectPage) {
+            setTimeout(() => {
+                window.location.href = redirectPage;
+            }, 1200);
+        }
+        return;
+    }
+
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.rate = 0.95;
+    window.speechSynthesis.speak(speech);
+
+    speech.onend = function() {
+        if (redirectPage) {
+            setTimeout(() => {
+                window.location.href = redirectPage;
+            }, 800);
+        }
+    };
+}
+
+/* LISTENING */
+function startListening() {
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+        alert("Speech recognition not supported. Use Safari on iPhone or Chrome on Android.");
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.continuous = false;
+
+    statusDiv.innerText = "Listening...";
+    recognition.start();
+
+    recognition.onresult = function(event) {
+        const message = event.results[0][0].transcript.toLowerCase();
+        transcriptDiv.innerText += "\nYou: " + message;
+        statusDiv.innerText = "";
+        setTimeout(() => routeUser(message), 400);
+    };
+
+    recognition.onerror = function() {
+        statusDiv.innerText = "Speech failed. Try again.";
+    };
+}
+
+/* ROUTING */
+function routeUser(message) {
+
+    if (message.includes("overwhelmed") || message.includes("stressed")) {
+        speak("Take a breath. You are not alone. Do you need housing, a job, or ID help?");
+        return;
+    }
+
+    if (message.includes("job") || message.includes("work")) {
+        speak("Let’s get you working again.", "employment.html");
+        return;
+    }
+
+    if (message.includes("id") || message.includes("license")) {
+        speak("Let’s handle your ID.", "id-help.html");
+        return;
+    }
+
+    if (message.includes("house") || message.includes("rent")) {
+        speak("Opening housing options.", "housing.html");
+        return;
+    }
+
+    if (message.includes("money") || message.includes("budget")) {
+        speak("Let’s get your money organized.", "money.html");
+        return;
+    }
+
+    if (message.includes("school") || message.includes("ged")) {
+        speak("Education opens doors.", "education.html");
+        return;
+    }
+
+    if (message.includes("family")) {
+        speak("Family matters. Taking you there now.", "family.html");
+        return;
+    }
+
+    speak("Try saying job, housing, ID, money, education, or family.");
+}
+
+/* SAME BACK FUNCTION AS YOUR OTHER PAGES */
+function goBack() {
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = 'index.html';
+}
+
+</script>
+
+</body>
+</html>
