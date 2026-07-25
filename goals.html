@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Goals | A New Me</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef2f7;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  background: #1f3c88;
+  color: white;
+  padding: 15px;
+}
+
+.back-btn {
+  background: white;
+  color: #1f3c88;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+  box-sizing: border-box;
+}
+
+button.action-btn {
+  background: #1f3c88;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.goal-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f4f6fb;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 8px;
+  gap: 10px;
+}
+
+.goal-item.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.progress-container {
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress-bar {
+  height: 12px;
+  background: #1f3c88;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.confetti {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: red;
+  top: 0;
+  animation: fall 2s linear forwards;
+}
+
+.save-msg {
+  color: #166534;
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app-header">
+  <button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+  <div>🎯 Goals Tracker</div>
+</div>
+
+<div class="container">
+
+<div style="text-align:center; padding: 20px 10px;">
+  <h2 style="margin:0; color:#1f3c88;">Stay on Top of Your Goals</h2>
+  <p style="margin-top:8px; color:#555;">
+    Small steps every day build long-term success.
+  </p>
+</div>
+
+<div class="card">
+<h3>Your Progress</h3>
+<div id="progressText"></div>
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+<p id="streakText"></p>
+</div>
+
+<div class="card">
+<h3>Add Personal Goal</h3>
+<label for="goalInput">Add one goal</label>
+<input type="text" id="goalInput" placeholder="Example: Apply for 5 jobs this week">
+<button class="action-btn" type="button" onclick="addGoal()">Add Goal</button>
+<p id="goalMsg" class="save-msg" aria-live="polite"></p>
+</div>
+
+<div class="card">
+<h3>Your Goals</h3>
+<div id="goalsList"></div>
+</div>
+
+<div class="card">
+<h3>🔒 Reentry Stability Goals</h3>
+<p>Track important first steps after release:</p>
+<div id="reentryGoals"></div>
+</div>
+
+</div>
+
+<script>
+function goBack() {
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = 'index.html';
+}
+
+let goals = JSON.parse(localStorage.getItem('goals')) || [];
+let reentry = JSON.parse(localStorage.getItem('reentryGoals')) || {
+  id: false,
+  housing: false,
+  employment: false,
+  probation: false,
+  savings: false
+};
+
+let streak = parseInt(localStorage.getItem('streak')) || 0;
+
+function escapeHtml(value) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function updateProgress() {
+  const total = goals.length;
+  const completed = goals.filter((g) => g.completed).length;
+  const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+  // Dashboard Command Center Sync
+  localStorage.setItem('goalsCompleted', completed);
+  localStorage.setItem('goalsTotal', total);
+  localStorage.setItem('goalStreak', streak);
+  localStorage.setItem('goalsPercent', percent);
+
+  document.getElementById('progressBar').style.width = percent + '%';
+  document.getElementById('progressText').innerText =
+    percent + '% of personal goals completed';
+  document.getElementById('streakText').innerText =
+    '🔥 Completion Streak: ' + streak;
+}
+}
+
+function renderGoals() {
+  const list = document.getElementById('goalsList');
+  list.innerHTML = '';
+
+  goals.forEach((goal, index) => {
+    const div = document.createElement('div');
+    div.className = 'goal-item' + (goal.completed ? ' completed' : '');
+
+    div.innerHTML = `
+      <span>${escapeHtml(goal.text)}</span>
+      <div>
+        <button type="button" onclick="toggleGoal(${index})">
+          ${goal.completed ? 'Undo' : 'Done'}
+        </button>
+        <button type="button" onclick="deleteGoal(${index})">X</button>
+      </div>
+    `;
+
+    list.appendChild(div);
+  });
+
+  localStorage.setItem('goals', JSON.stringify(goals));
+  updateProgress();
+}
+
+function addGoal() {
+  const text = document.getElementById('goalInput').value.trim();
+  if (!text) {
+    document.getElementById('goalMsg').innerText = 'Enter a goal first.';
+    return;
+  }
+
+  goals.push({ text, completed: false });
+  document.getElementById('goalInput').value = '';
+  document.getElementById('goalMsg').innerText = 'Goal added.';
+  renderGoals();
+}
+
+function toggleGoal(index) {
+  if (!goals[index]) return;
+  goals[index].completed = !goals[index].completed;
+
+  if (goals[index].completed) {
+    streak++;
+    localStorage.setItem('streak', streak);
+    showMotivation();
+    launchConfetti();
+  }
+
+  renderGoals();
+}
+
+function deleteGoal(index) {
+  goals.splice(index, 1);
+  renderGoals();
+}
+
+function showMotivation() {
+  const messages = [
+    'Great job! Keep going!',
+    'Momentum builds success!',
+    'You’re doing this!',
+    'Progress over perfection!',
+    'Every win counts!'
+  ];
+  alert(messages[Math.floor(Math.random() * messages.length)]);
+}
+
+function launchConfetti() {
+  for (let i = 0; i < 30; i++) {
+    const div = document.createElement('div');
+    div.className = 'confetti';
+    div.style.left = Math.random() * 100 + 'vw';
+    div.style.background = `hsl(${Math.random() * 360}, 70%, 50%)`;
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 2000);
+  }
+}
+
+function renderReentry() {
+  const container = document.getElementById('reentryGoals');
+  container.innerHTML = '';
+
+  const checklist = [
+    { key: 'id', label: 'Obtain State ID / Driver License' },
+    { key: 'housing', label: 'Secure Stable Housing' },
+    { key: 'employment', label: 'Apply for Employment or Training' },
+    { key: 'probation', label: 'Meet All Probation Requirements' },
+    { key: 'savings', label: 'Start $500 Emergency Fund' }
+  ];
+
+  checklist.forEach((item) => {
+    const div = document.createElement('div');
+    div.className = 'goal-item' + (reentry[item.key] ? ' completed' : '');
+
+    div.innerHTML = `
+      <span>${item.label}</span>
+      <button type="button" onclick="toggleReentry('${item.key}')">
+        ${reentry[item.key] ? 'Completed' : 'Mark Done'}
+      </button>
+    `;
+
+    container.appendChild(div);
+  });
+
+  localStorage.setItem('reentryGoals', JSON.stringify(reentry));
+}
+
+function toggleReentry(key) {
+  reentry[key] = !reentry[key];
+  renderReentry();
+}
+
+renderGoals();
+renderReentry();
+</script>
+
+</body>
+</html>
