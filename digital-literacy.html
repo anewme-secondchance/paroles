@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Literacy | A New Me</title>
+
+<style>
+:root {
+  --brand: #1f3c88;
+  --bg: #eef2f7;
+  --text: #1f2937;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--brand);
+  color: white;
+  padding: 15px;
+}
+
+.back-btn {
+  background: white;
+  color: var(--brand);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  padding-bottom: 80px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+  min-height: 120px;
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--brand);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+button.secondary {
+  background: #e5e7eb;
+  color: #111827;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.status {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #374151;
+}
+</style>
+</head>
+
+<body>
+
+<header class="app-header">
+  <button type="button" onclick="goBack()" class="back-btn" aria-label="Go back">&larr; Back</button>
+  <h1>Digital Literacy</h1>
+</header>
+
+<main class="container">
+
+<section class="card">
+<h2>Typing Practice</h2>
+<ul>
+<li><a href="https://www.typing.com/" target="_blank" rel="noopener noreferrer">Typing.com</a></li>
+<li><a href="https://www.typingclub.com/" target="_blank" rel="noopener noreferrer">TypingClub</a></li>
+<li><a href="https://www.keybr.com/" target="_blank" rel="noopener noreferrer">Keybr</a></li>
+<li><a href="https://www.nitrotype.com/" target="_blank" rel="noopener noreferrer">NitroType (Game)</a></li>
+</ul>
+</section>
+
+<section class="card">
+<h2>Computer Basics</h2>
+<ul>
+<li><a href="https://edu.gcfglobal.org/en/topics/computers/" target="_blank" rel="noopener noreferrer">GCFLearnFree Computer Basics</a></li>
+<li><a href="https://www.digitallearn.org/" target="_blank" rel="noopener noreferrer">DigitalLearn.org</a></li>
+<li><a href="https://www.techboomers.com/" target="_blank" rel="noopener noreferrer">TechBoomers</a></li>
+</ul>
+</section>
+
+<section class="card">
+<h2>Office Skills</h2>
+<ul>
+<li><a href="https://edu.gcfglobal.org/en/word/" target="_blank" rel="noopener noreferrer">Microsoft Word Training</a></li>
+<li><a href="https://edu.gcfglobal.org/en/excel/" target="_blank" rel="noopener noreferrer">Excel Training</a></li>
+<li><a href="https://workspace.google.com/training/" target="_blank" rel="noopener noreferrer">Google Workspace Training</a></li>
+</ul>
+</section>
+
+<section class="card">
+<h2>Job & Certification Training</h2>
+<ul>
+<li><a href="https://www.linkedin.com/learning/" target="_blank" rel="noopener noreferrer">LinkedIn Learning</a></li>
+<li><a href="https://www.coursera.org/" target="_blank" rel="noopener noreferrer">Coursera</a></li>
+<li><a href="https://www.udemy.com/" target="_blank" rel="noopener noreferrer">Udemy</a></li>
+<li><a href="https://www.the-last-mile.org/" target="_blank" rel="noopener noreferrer">The Last Mile</a></li>
+</ul>
+</section>
+
+<section class="card">
+<h2>My Learning Notes</h2>
+<label for="notes">Track what you’re learning and your next step.</label>
+<textarea id="notes" placeholder="Example: Finished 20 min typing practice. Next: complete one Excel tutorial."></textarea>
+<div class="actions">
+  <button type="button" class="secondary" id="clearNotesBtn">Clear Notes</button>
+</div>
+<p class="status" id="saveStatus" aria-live="polite">Notes are saved automatically on this device.</p>
+</section>
+
+</main>
+
+<script>
+function goBack() {
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = 'index.html';
+}
+
+const notesArea = document.getElementById('notes');
+const saveStatus = document.getElementById('saveStatus');
+const clearNotesBtn = document.getElementById('clearNotesBtn');
+
+function saveNotes() {
+  localStorage.setItem('digitalNotes', notesArea.value);
+  saveStatus.textContent = `Saved at ${new Date().toLocaleTimeString()}.`;
+}
+
+function loadNotes() {
+  const saved = localStorage.getItem('digitalNotes');
+  if (saved) {
+    notesArea.value = saved;
+    saveStatus.textContent = 'Loaded your previous notes from this device.';
+  }
+}
+
+function clearNotes() {
+  notesArea.value = '';
+  localStorage.removeItem('digitalNotes');
+  saveStatus.textContent = 'Notes cleared.';
+}
+
+notesArea.addEventListener('input', saveNotes);
+clearNotesBtn.addEventListener('click', clearNotes);
+loadNotes();
+</script>
+
+</body>
+</html>
