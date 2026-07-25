@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employment | A New Me</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef2f7;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  background: #1f3c88;
+  color: white;
+  padding: 15px;
+}
+
+.back-btn {
+  background: white;
+  color: #1f3c88;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+textarea, input, select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 8px;
+  box-sizing: border-box;
+}
+
+button {
+  background: #1f3c88;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.notice {
+  background: #ffe5e5;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.tracker-item {
+  background:#f4f6fb;
+  padding:10px;
+  border-radius:8px;
+  margin-top:10px;
+}
+
+.status {
+  margin-top: 8px;
+  font-weight: bold;
+  color: #166534;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app-header">
+  <button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+  <div>Employment</div>
+</div>
+
+<div class="container">
+
+<div class="card notice" role="note" aria-label="Employment disclaimer">
+Hiring depends on charge type, time passed, and company policy.
+</div>
+
+<div class="card">
+<h3>What Men Should Wear</h3>
+<ul>
+<li>Clean button-up shirt or polo</li>
+<li>Dark jeans or slacks</li>
+<li>Closed-toe shoes</li>
+<li>Trimmed facial hair</li>
+<li>Fresh haircut</li>
+<li>Light deodorant (no heavy cologne)</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>What Women Should Wear</h3>
+<ul>
+<li>Blouse or professional top</li>
+<li>Dress pants or knee-length skirt</li>
+<li>Closed-toe flats or low heels</li>
+<li>Neat hairstyle</li>
+<li>Minimal jewelry</li>
+<li>Light makeup (optional)</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Find & Apply for Jobs</h3>
+
+<p><strong>Second-Chance Friendly:</strong></p>
+<p><a href="https://www.honestjobs.com" target="_blank" rel="noopener noreferrer">Honest Jobs</a></p>
+<p><a href="https://www.70millionjobs.com" target="_blank" rel="noopener noreferrer">70 Million Jobs</a></p>
+
+<hr>
+
+<p><strong>General Job Platforms:</strong></p>
+<p><a href="https://www.indeed.com" target="_blank" rel="noopener noreferrer">Indeed</a></p>
+<p><a href="https://www.glassdoor.com" target="_blank" rel="noopener noreferrer">Glassdoor</a></p>
+<p><a href="https://www.ziprecruiter.com" target="_blank" rel="noopener noreferrer">ZipRecruiter</a></p>
+
+<hr>
+
+<p><strong>Texas Workforce Commission:</strong></p>
+<p><a href="https://www.twc.texas.gov/jobseekers" target="_blank" rel="noopener noreferrer">Search Texas Jobs</a></p>
+</div>
+
+<div class="card">
+<h3>Job Application Tracker</h3>
+
+<label for="company">Company Name</label>
+<input type="text" id="company">
+
+<label for="position">Position</label>
+<input type="text" id="position">
+
+<label for="date">Date Applied</label>
+<input type="date" id="date">
+
+<label for="status">Status</label>
+<select id="status">
+<option>Applied</option>
+<option>Interview Scheduled</option>
+<option>Followed Up</option>
+<option>Rejected</option>
+<option>Hired</option>
+</select>
+
+<button type="button" onclick="addApplication()">Add Application</button>
+<p id="trackerStatus" class="status" aria-live="polite"></p>
+
+<div id="applicationsList"></div>
+</div>
+
+<div class="card">
+<h3>Interview Practice</h3>
+
+<label for="practice1">30-Second Introduction</label>
+<textarea id="practice1"></textarea>
+
+<label for="practice2">Why Should We Hire You?</label>
+<textarea id="practice2"></textarea>
+
+<label for="practice3">How Have You Grown?</label>
+<textarea id="practice3"></textarea>
+
+<button type="button" onclick="savePractice()">Save Practice</button>
+<p id="saveMessage" class="status" aria-live="polite"></p>
+</div>
+
+<div class="card">
+<h3>Need Help Getting Your ID?</h3>
+<p>If your ID has not arrived yet, visit the ID Help page for step-by-step instructions.</p>
+<button type="button" onclick="window.location.href='id-help.html'">Go to ID Help</button>
+</div>
+
+</div>
+
+<script>
+function goBack() {
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = 'index.html';
+}
+
+function getApplications() {
+  return JSON.parse(localStorage.getItem('applications')) || [];
+}
+
+function setApplications(applications) {
+  localStorage.setItem('applications', JSON.stringify(applications));
+}
+
+function addApplication() {
+  const company = document.getElementById('company').value.trim();
+  const position = document.getElementById('position').value.trim();
+  const date = document.getElementById('date').value;
+  const status = document.getElementById('status').value;
+
+  if (!company || !position) {
+    document.getElementById('trackerStatus').innerText = 'Add both company and position before saving.';
+    return;
+  }
+
+  const applications = getApplications();
+  applications.push({
+    company,
+    position,
+    date,
+    status,
+    timestamp: Date.now()
+  });
+
+  setApplications(applications);
+
+  document.getElementById('company').value = '';
+  document.getElementById('position').value = '';
+  document.getElementById('date').value = '';
+  document.getElementById('trackerStatus').innerText = 'Application saved.';
+
+  renderApplications();
+}
+
+function renderApplications() {
+  const list = document.getElementById('applicationsList');
+  list.innerHTML = '';
+
+  const applications = getApplications();
+
+  applications.forEach((app, index) => {
+    const now = Date.now();
+    const sevenDays = 7 * 24 * 60 * 60 * 1000;
+    const showReminder = (now - app.timestamp) > sevenDays && app.status === 'Applied';
+
+    const card = document.createElement('div');
+    card.className = 'tracker-item';
+
+    card.innerHTML = `
+      <strong>${escapeHtml(app.company)}</strong><br>
+      Position: ${escapeHtml(app.position)}<br>
+      Date Applied: ${escapeHtml(app.date || 'N/A')}<br>
+      Status: ${escapeHtml(app.status)}<br>
+      ${showReminder ? '<p style="color:red;"><strong>⚠ Time to Follow Up!</strong></p>' : ''}
+      <button type="button" onclick="updateStatus(${index}, 'Followed Up')">Mark Followed Up</button>
+      <button type="button" onclick="deleteApplication(${index})">Delete</button>
+    `;
+
+    list.appendChild(card);
+  });
+
+  updateEmploymentDashboard();
+}
+
+function updateStatus(index, newStatus) {
+  const applications = getApplications();
+  if (!applications[index]) return;
+  applications[index].status = newStatus;
+  setApplications(applications);
+  renderApplications();
+}
+
+function deleteApplication(index) {
+  const applications = getApplications();
+  applications.splice(index, 1);
+  setApplications(applications);
+  renderApplications();
+}
+
+function savePractice() {
+  localStorage.setItem('practice1', document.getElementById('practice1').value);
+  localStorage.setItem('practice2', document.getElementById('practice2').value);
+  localStorage.setItem('practice3', document.getElementById('practice3').value);
+  document.getElementById('saveMessage').innerText = `Saved at ${new Date().toLocaleTimeString()}.`;
+}
+
+function escapeHtml(value) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function updateEmploymentDashboard() {
+  const applications = getApplications();
+
+  const total = applications.length;
+
+  const interviews = applications.filter(
+    app => app.status === 'Interview Scheduled'
+  ).length;
+
+  const followedUp = applications.filter(
+    app => app.status === 'Followed Up'
+  ).length;
+
+  const hired = applications.filter(
+    app => app.status === 'Hired'
+  ).length;
+
+  localStorage.setItem('employmentTotal', total);
+  localStorage.setItem('employmentInterviews', interviews);
+  localStorage.setItem('employmentFollowUps', followedUp);
+  localStorage.setItem('employmentHired', hired);
+}
+  
+window.onload = function() {
+  document.getElementById('practice1').value = localStorage.getItem('practice1') || '';
+  document.getElementById('practice2').value = localStorage.getItem('practice2') || '';
+  document.getElementById('practice3').value = localStorage.getItem('practice3') || '';
+  renderApplications();
+};
+</script>
+
+</body>
+</html>
