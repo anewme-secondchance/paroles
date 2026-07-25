@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal Help | A New Me</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef2f7;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  background: #1f3c88;
+  color: white;
+  padding: 15px;
+}
+
+.back-btn {
+  background: white;
+  color: #1f3c88;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.warning {
+  background: #ffe5e5;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+textarea, input, select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background: #1f3c88;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.success {
+  color: green;
+  margin-top: 10px;
+}
+
+.result {
+  margin-top:10px;
+  font-weight:bold;
+}
+
+a {
+  color: #1f3c88;
+  font-weight: bold;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app-header">
+<button onclick="goBack()" class="back-btn">← Back</button>
+<div>⚖ Legal Help</div>
+</div>
+
+<div class="container">
+
+<div class="card warning">
+⚠ Eligibility depends on offense type, case outcome, and time passed.
+</div>
+
+<div class="card">
+<h3>Expungement May Apply If:</h3>
+<ul>
+<li>Case dismissed</li>
+<li>Found Not Guilty</li>
+<li>No-billed by grand jury</li>
+<li>Arrested but never charged</li>
+</ul>
+
+<button onclick="toggleExpunge()">How to Expunge My Record</button>
+
+<div id="expungeSteps" style="display:none;margin-top:10px;">
+<h4>Steps to Expunge Your Record in Texas</h4>
+<ol>
+<li>Confirm you qualify for expunction.</li>
+<li>Find your case details (county, court, case number).</li>
+<li>Complete a Petition for Expunction form.</li>
+<li>File the petition with the district court in the county where the arrest occurred.</li>
+<li>Pay the filing fee or request a fee waiver.</li>
+<li>Attend a court hearing if required.</li>
+<li>If approved, the court orders agencies to destroy the record.</li>
+</ol>
+
+<p>
+Expunction Forms:<br>
+<a href="https://www.txcourts.gov/forms/" target="_blank">Texas Judicial Branch Forms</a>
+</p>
+</div>
+</div>
+
+<div class="card">
+<h3>Non-Disclosure May Apply If:</h3>
+<ul>
+<li>Completed deferred adjudication</li>
+<li>Completed probation (certain offenses)</li>
+<li>No new convictions during waiting period</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>⚠ Usually NOT Eligible If:</h3>
+<ul>
+<li>Family violence conviction</li>
+<li>Sex offense conviction</li>
+<li>Aggravated violent felony</li>
+<li>Multiple repeat convictions</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>📜 Know Your Rights</h3>
+<ul>
+<li>You have the right to remain silent if questioned by law enforcement.</li>
+<li>You have the right to request an attorney before answering questions.</li>
+<li>You have the right to refuse consent to a search unless officers have a warrant.</li>
+<li>You have the right to ask if you are free to leave during a stop.</li>
+<li>You have the right to receive a copy of any paperwork you sign.</li>
+<li>If you are on probation/parole, you must follow supervision terms — but you still maintain constitutional rights.</li>
+</ul>
+
+<p><strong>Important:</strong> Stay calm, do not argue on the scene, and document details afterward.</p>
+
+<p>
+Helpful Rights Information:<br>
+<a href="https://www.aclutx.org" target="_blank">ACLU of Texas</a>
+</p>
+</div>
+
+<div class="card">
+<h3>🗳 Voting Rights Restoration (Texas)</h3>
+
+<p><strong>You CANNOT vote if:</strong></p>
+<ul>
+<li>You are currently incarcerated</li>
+<li>You are on parole</li>
+<li>You are on probation</li>
+</ul>
+
+<p><strong>You CAN vote once:</strong></p>
+<ul>
+<li>Your full sentence is completed</li>
+<li>Parole is completed</li>
+<li>Probation is completed</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Free Texas Legal Resources</h3>
+
+<p>
+Texas Legal Services Center<br>
+<a href="https://www.tlsc.org" target="_blank">www.tlsc.org</a>
+</p>
+
+<p>
+Lone Star Legal Aid<br>
+<a href="https://www.lonestarlegal.org" target="_blank">www.lonestarlegal.org</a>
+</p>
+
+<p>
+Texas RioGrande Legal Aid<br>
+<a href="https://www.trla.org" target="_blank">www.trla.org</a>
+</p>
+</div>
+
+<div class="card">
+<h3>My Legal Plan</h3>
+
+<label>County Charged</label>
+<input type="text" id="county">
+
+<label>Charge Type</label>
+<input type="text" id="charge">
+
+<label>Case Outcome</label>
+<select id="outcome">
+<option value="">Select</option>
+<option>Dismissed</option>
+<option>Deferred Adjudication</option>
+<option>Convicted</option>
+<option>No-Billed</option>
+<option>Not Guilty</option>
+</select>
+
+<label>Notes / Questions</label>
+<textarea id="notes"></textarea>
+
+<button onclick="checkEligibility()">Check Eligibility</button>
+
+<p id="eligibilityResult" class="result"></p>
+
+<button onclick="saveLegal()">Save Legal Info</button>
+
+<p id="saveMessage" class="success"></p>
+
+</div>
+
+</div>
+
+<script>
+
+function goBack(){
+window.location.href="index.html";
+}
+
+function toggleExpunge(){
+const steps=document.getElementById("expungeSteps");
+
+if(steps.style.display==="none"){
+steps.style.display="block";
+}else{
+steps.style.display="none";
+}
+}
+
+function checkEligibility(){
+
+const outcome=document.getElementById("outcome").value;
+const result=document.getElementById("eligibilityResult");
+
+if(outcome==="Dismissed"||outcome==="Not Guilty"||outcome==="No-Billed"){
+result.innerText="✅ You may qualify for Expungement.";
+}
+else if(outcome==="Deferred Adjudication"){
+result.innerText="⚠ You may qualify for Non-Disclosure.";
+}
+else if(outcome==="Convicted"){
+result.innerText="❌ Expungement usually not available for convictions.";
+}
+else{
+result.innerText="Please select your case outcome.";
+}
+
+}
+
+function saveLegal(){
+
+const data={
+county:document.getElementById("county").value,
+charge:document.getElementById("charge").value,
+outcome:document.getElementById("outcome").value,
+notes:document.getElementById("notes").value
+};
+
+localStorage.setItem("legalPlan",JSON.stringify(data));
+
+document.getElementById("saveMessage").innerText="Saved ✓";
+
+}
+
+window.onload=function(){
+
+const saved=JSON.parse(localStorage.getItem("legalPlan"));
+
+if(saved){
+document.getElementById("county").value=saved.county||"";
+document.getElementById("charge").value=saved.charge||"";
+document.getElementById("outcome").value=saved.outcome||"";
+document.getElementById("notes").value=saved.notes||"";
+}
+
+};
+
+</script>
+
+</body>
+</html>
