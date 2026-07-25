@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Progress Dashboard | A New Me</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#eef2f7;
+}
+
+.header{
+  background:#1f3c88;
+  color:white;
+  padding:15px;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.big{
+  font-size:32px;
+  font-weight:bold;
+  color:#1f3c88;
+}
+
+.back-btn{
+  background:white;
+  color:#1f3c88;
+  border:none;
+  padding:8px 14px;
+  border-radius:20px;
+  cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+  <button onclick="history.back()" class="back-btn">
+    ← Back
+  </button>
+
+  <h2>Progress Dashboard</h2>
+</div>
+
+<div class="container">
+
+  <div class="card">
+    <h3>Overall Progress</h3>
+
+    <p>
+      <span class="big" id="overallProgress">0%</span>
+    </p>
+
+    <p>
+      Keep moving forward. Progress over perfection.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>Employment</h3>
+
+    <p>
+      Total Applications:
+      <span class="big" id="employmentTotal">0</span>
+    </p>
+
+    <p>
+      Interviews:
+      <span class="big" id="employmentInterviews">0</span>
+    </p>
+
+    <p>
+      Follow Ups:
+      <span class="big" id="employmentFollowUps">0</span>
+    </p>
+
+    <p>
+      Hired:
+      <span class="big" id="employmentHired">0</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>Housing</h3>
+
+    <p>
+      Housing Plan Completed:
+      <span class="big" id="housingStatus">No</span>
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>Education</h3>
+
+    <p>
+      Education Plan Completed:
+      <span class="big" id="educationStatus">No</span>
+    </p>
+  </div>
+
+</div>
+
+<script>
+
+document.getElementById('employmentTotal').innerText =
+  localStorage.getItem('employmentTotal') || 0;
+
+document.getElementById('employmentInterviews').innerText =
+  localStorage.getItem('employmentInterviews') || 0;
+
+document.getElementById('employmentFollowUps').innerText =
+  localStorage.getItem('employmentFollowUps') || 0;
+
+document.getElementById('employmentHired').innerText =
+  localStorage.getItem('employmentHired') || 0;
+
+document.getElementById('housingStatus').innerText =
+  localStorage.getItem('housingPlanCompleted') || 'No';
+
+document.getElementById('educationStatus').innerText =
+  localStorage.getItem('educationPlanCompleted') || 'No';
+
+let completed = 0;
+
+if ((localStorage.getItem('housingPlanCompleted') || 'No') === 'Yes') {
+  completed++;
+}
+
+if ((localStorage.getItem('educationPlanCompleted') || 'No') === 'Yes') {
+  completed++;
+}
+
+if (Number(localStorage.getItem('employmentTotal') || 0) > 0) {
+  completed++;
+}
+
+const progress = Math.round((completed / 3) * 100);
+
+document.getElementById('overallProgress').innerText =
+  progress + '%';
+
+</script>
+
+</body>
+</html>
