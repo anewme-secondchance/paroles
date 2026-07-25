@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Money Plan | A New Me</title>
+<style>body{margin:0;font-family:Arial;background:#eef2f7}.app-header{display:flex;align-items:center;background:#1f3c88;color:#fff;padding:15px}.back-btn{background:#fff;color:#1f3c88;border:none;padding:6px 14px;border-radius:20px;cursor:pointer;margin-right:15px;font-weight:700}.container{padding:20px;max-width:900px;margin:auto}.card{background:#fff;padding:20px;border-radius:12px;margin-bottom:20px;box-shadow:0 4px 10px rgba(0,0,0,.08)}input{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #ccc;box-sizing:border-box}button{background:#1f3c88;color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;margin-top:10px}.success{margin-top:10px;color:green;font-weight:700}</style>
+</head>
+<body>
+<div class="app-header">
+<button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+<div>Financial Stability</div>
+</div>
+<div class="container">
+<div class="card">
+<h3>💵 Monthly Income</h3>
+<label for="income">Total Monthly Income:</label>
+<input type="number" id="income">
+</div>
+<div class="card">
+<h3>💳 Monthly Expenses</h3>
+<label for="rent">Rent:</label>
+<input type="number" id="rent">
+<label for="utilities">Utilities:</label>
+<input type="number" id="utilities">
+<label for="food">Food:</label>
+<input type="number" id="food">
+<label for="transportation">Transportation:</label>
+<input type="number" id="transportation">
+<label for="other">Other:</label>
+<input type="number" id="other">
+<button type="button" onclick="calculateBudget()">Calculate Budget</button>
+<div id="budgetResult" class="success" aria-live="polite">
+</div>
+</div>
+<div class="card">
+<h3>🏦 Savings Goal</h3>
+<label for="savingsGoal">How much do I want to save?</label>
+<input type="number" id="savingsGoal">
+<button type="button" onclick="saveMoneyPlan()">Save Financial Plan</button>
+<div id="savedMessage" class="success" aria-live="polite">
+</div>
+</div>
+</div>
+<script>function goBack(){if(window.history.length>1){window.history.back();return;}window.location.href='index.html';}function calculateBudget(){const n=id=>parseFloat(document.getElementById(id).value)||0;const income=n('income');const total=n('rent')+n('utilities')+n('food')+n('transportation')+n('other');budgetResult.innerText='Remaining after expenses: $'+(income-total).toFixed(2);}function saveMoneyPlan(){const ids=['income','rent','utilities','food','transportation','other','savingsGoal'];const plan={};ids.forEach(id=>plan[id]=document.getElementById(id).value);localStorage.setItem('moneyPlan',JSON.stringify(plan));savedMessage.innerText=`Financial plan saved at ${new Date().toLocaleTimeString()}.`;}function loadMoneyPlan(){const s=JSON.parse(localStorage.getItem('moneyPlan'));if(!s)return;Object.keys(s).forEach(k=>{if(document.getElementById(k))document.getElementById(k).value=s[k]||'';});savedMessage.innerText='Loaded your saved financial plan from this device.';}loadMoneyPlan();</script>
+</body>
+</html>
