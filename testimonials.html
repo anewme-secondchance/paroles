@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testimonials | A New Me</title>
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #eef2f7;
+}
+.header {
+  background: linear-gradient(135deg, #1f3c88, #2a5298);
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+.back-btn {
+  position: absolute;
+  left: 15px;
+  top: 18px;
+  background: #fff;
+  color: #1f3c88;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.08);
+}
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+button {
+  background: #1f3c88;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.quote {
+  font-style: italic;
+  margin-bottom: 10px;
+}
+.name {
+  font-weight: 700;
+  color: #1f3c88;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+  <h2>💬 Community Testimonials</h2>
+</div>
+<div class="container">
+
+  <div id="testimonialList"></div>
+
+  <div class="card">
+    <h3>Share Your Experience</h3>
+    <input type="text" id="nameInput" placeholder="First name or initials">
+    <textarea id="testimonialInput" rows="4" placeholder="How has A New Me helped you?"></textarea>
+    <button type="button" onclick="addTestimonial()">Submit</button>
+    <p id="submitMsg" aria-live="polite"></p>
+  </div>
+
+</div>
+<script>
+const testimonialListEl = document.getElementById('testimonialList');
+const nameInputEl = document.getElementById('nameInput');
+const testimonialInputEl = document.getElementById('testimonialInput');
+const submitMsgEl = document.getElementById('submitMsg');
+
+let testimonials = [
+  {
+    name: "Marcus T.",
+    text: "After returning home, I used A New Me to build my resume and find employment. Within two months I had a steady job and my own apartment."
+  },
+  {
+    name: "Danielle R.",
+    text: "The housing and ID resources helped me get back on my feet. Having everything in one place made the process much easier."
+  },
+  {
+    name: "James W.",
+    text: "The First 7 Days checklist helped me stay focused and organized. I was able to complete important tasks without feeling overwhelmed."
+  },
+  {
+    name: "Sarah K.",
+    text: "I used the education section to plan my GED and college goals. It gave me confidence that I could continue my education."
+  }
+];
+
+const savedTestimonials =
+  JSON.parse(localStorage.getItem('testimonials')) || [];
+
+testimonials = [...testimonials, ...savedTestimonials];
+function goBack() {
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = 'index.html';
+}
+
+function esc(v) {
+  return v
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function renderTestimonials() {
+  testimonialListEl.innerHTML = '';
+  testimonials.forEach((item) => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `<div class="quote">"${esc(item.text)}"</div><div class="name">– ${esc(item.name)}</div>`;
+    testimonialListEl.appendChild(div);
+  });
+  localStorage.setItem('testimonials', JSON.stringify(testimonials));
+}
+
+function addTestimonial() {
+  const name = nameInputEl.value.trim();
+  const text = testimonialInputEl.value.trim();
+
+  if (!name || !text) {
+    submitMsgEl.innerText = 'Please complete both fields.';
+    return;
+  }
+
+  testimonials.push({ name, text });
+  nameInputEl.value = '';
+  testimonialInputEl.value = '';
+  submitMsgEl.innerText = 'Thank you! Your testimonial was saved.';
+  renderTestimonials();
+}
+
+renderTestimonials();
+</script>
+</body>
+</html>
