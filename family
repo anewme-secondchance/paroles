@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Family | A New Me</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef2f7;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  background: #1f3c88;
+  color: white;
+  padding: 15px;
+}
+
+.back-btn {
+  background: white;
+  color: #1f3c88;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  padding-bottom: 80px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+textarea, input {
+  width: 100%;
+  min-height: 90px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+  box-sizing: border-box;
+}
+
+input {
+  min-height: 44px;
+}
+
+button {
+  background: #1f3c88;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.save-msg {
+  color: green;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background: #f4f6fb;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app-header">
+  <button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+  <div>👨‍👩‍👧 Family Rebuilding</div>
+</div>
+
+<div class="container">
+
+<div class="card">
+<h3>Reunification Plan</h3>
+<label for="reunificationPlan">Write your reunification goals and action steps.</label>
+<textarea id="reunificationPlan" placeholder="Write your reunification goals and action steps..."></textarea>
+<div class="save-msg" id="planMsg" aria-live="polite"></div>
+</div>
+
+<div class="card">
+<h3>Trust Building Commitments</h3>
+<label for="trustPlan">How will you rebuild trust? Be specific.</label>
+<textarea id="trustPlan" placeholder="How will you rebuild trust? Be specific..."></textarea>
+<div class="save-msg" id="trustMsg" aria-live="polite"></div>
+</div>
+
+<div class="card">
+<h3>Consistency Tracker</h3>
+<label for="taskInput">Add one weekly family commitment.</label>
+<input type="text" id="taskInput" placeholder="Example: Call my child every Sunday">
+<button type="button" onclick="addTask()">Add Commitment</button>
+<div class="save-msg" id="taskMsg" aria-live="polite"></div>
+<div id="taskList"></div>
+</div>
+
+</div>
+
+<script>
+function goBack() {
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = 'index.html';
+}
+
+function loadFamilyData() {
+  const saved = JSON.parse(localStorage.getItem('familyData')) || {
+    reunification: '',
+    trust: '',
+    tasks: []
+  };
+
+  document.getElementById('reunificationPlan').value = saved.reunification;
+  document.getElementById('trustPlan').value = saved.trust;
+
+  renderTasks(saved.tasks);
+}
+
+function saveFamilyData(data) {
+  localStorage.setItem('familyData', JSON.stringify(data));
+}
+
+document.getElementById('reunificationPlan').addEventListener('input', function() {
+  const data = getCurrentData();
+  data.reunification = this.value;
+  saveFamilyData(data);
+  document.getElementById('planMsg').textContent = `Saved at ${new Date().toLocaleTimeString()}`;
+});
+
+document.getElementById('trustPlan').addEventListener('input', function() {
+  const data = getCurrentData();
+  data.trust = this.value;
+  saveFamilyData(data);
+  document.getElementById('trustMsg').textContent = `Saved at ${new Date().toLocaleTimeString()}`;
+});
+
+function getCurrentData() {
+  return JSON.parse(localStorage.getItem('familyData')) || {
+    reunification: '',
+    trust: '',
+    tasks: []
+  };
+}
+
+function escapeHtml(value) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function addTask() {
+  const input = document.getElementById('taskInput');
+  const text = input.value.trim();
+  if (!text) {
+    document.getElementById('taskMsg').textContent = 'Enter a commitment first.';
+    return;
+  }
+
+  const data = getCurrentData();
+  data.tasks.push({ text, completed: false });
+
+  saveFamilyData(data);
+  input.value = '';
+  document.getElementById('taskMsg').textContent = 'Commitment added.';
+  renderTasks(data.tasks);
+}
+
+function renderTasks(tasks) {
+  const list = document.getElementById('taskList');
+  list.innerHTML = '';
+
+  tasks.forEach((task, index) => {
+    const div = document.createElement('div');
+    div.className = 'task-item' + (task.completed ? ' completed' : '');
+
+    div.innerHTML = `
+      <span>${escapeHtml(task.text)}</span>
+      <div>
+        <button type="button" onclick="toggleTask(${index})">
+          ${task.completed ? 'Undo' : 'Done'}
+        </button>
+        <button type="button" onclick="deleteTask(${index})">X</button>
+      </div>
+    `;
+
+    list.appendChild(div);
+  });
+}
+
+function toggleTask(index) {
+  const data = getCurrentData();
+  if (!data.tasks[index]) return;
+  data.tasks[index].completed = !data.tasks[index].completed;
+  saveFamilyData(data);
+  renderTasks(data.tasks);
+}
+
+function deleteTask(index) {
+  const data = getCurrentData();
+  data.tasks.splice(index, 1);
+  saveFamilyData(data);
+  renderTasks(data.tasks);
+}
+
+loadFamilyData();
+</script>
+
+</body>
+</html>
