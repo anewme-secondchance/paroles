@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ID Help After Release | A New Me</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef2f7;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  background: #1f3c88;
+  color: white;
+  padding: 15px;
+}
+
+.back-btn {
+  background: white;
+  color: #1f3c88;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  padding-bottom: 60px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.warning {
+  background: #ffe5e5;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.success {
+  background: #e8f5e9;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+ul, ol {
+  margin-top: 10px;
+}
+
+a {
+  color: #1f3c88;
+  font-weight: bold;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app-header">
+  <button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+  <div>ID Help After Release</div>
+</div>
+
+<div class="container">
+
+<div class="card">
+<h3>📝 ID Recovery Checklist</h3>
+
+<ul>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Contacted prison reentry office</label></li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Confirmed ID was submitted</label></li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Verified mailing address</label></li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Visited Texas DPS</label></li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Requested temporary paper ID</label></li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Applied for replacement Social Security card</label></li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Ordered birth certificate (if needed)</label></li>
+<li><label><input type="checkbox" onchange="saveChecklist()"> Contacted nonprofit for fee assistance</label></li>
+</ul>
+
+<p id="checkMessage" aria-live="polite"></p>
+</div>
+
+<div class="card warning">
+🚨 If your prison ID has not arrived yet — DO NOT WAIT.
+You can take action immediately.
+</div>
+
+<div class="card">
+<h3>1️⃣ Go to Texas DPS Yourself</h3>
+
+<p>Even if they told you it would be mailed, you can apply directly.</p>
+
+<p><strong>Bring:</strong></p>
+<ul>
+<li>Release paperwork</li>
+<li>Prison ID (even if expired)</li>
+<li>Social Security card (if available)</li>
+<li>Birth certificate (if available)</li>
+</ul>
+
+<p>Find DPS locations:</p>
+<p><a href="https://www.dps.texas.gov/section/driver-license/driver-license-office-locations" target="_blank" rel="noopener noreferrer">
+Texas DPS Office Locator
+</a></p>
+
+<p><strong>Ask for a temporary paper ID while you wait.</strong></p>
+</div>
+
+<div class="card">
+<h3>2️⃣ If You Do Not Have a Social Security Card</h3>
+
+<p>Go to a Social Security office and request a replacement card (free).</p>
+
+<p><strong>Bring:</strong></p>
+<ul>
+<li>Release paperwork</li>
+<li>Any identification you have</li>
+<li>Birth certificate (if possible)</li>
+</ul>
+
+<p>Find office:</p>
+<p><a href="https://www.ssa.gov/locator/" target="_blank" rel="noopener noreferrer">
+Social Security Office Locator
+</a></p>
+</div>
+
+<div class="card">
+<h3>3️⃣ If You Do Not Have a Birth Certificate</h3>
+
+<p>Order it from Texas Vital Records:</p>
+
+<p><a href="https://www.dshs.texas.gov/vs" target="_blank" rel="noopener noreferrer">
+Texas Vital Statistics
+</a></p>
+
+<p>Or contact the county where you were born.</p>
+
+<p>Many nonprofits will help pay the fee.</p>
+</div>
+
+<div class="card">
+<h3>4️⃣ You CAN Start Job Searching Without ID</h3>
+
+<p>You cannot complete hiring paperwork without proper ID,
+but you CAN:</p>
+
+<ul>
+<li>Apply for jobs</li>
+<li>Attend interviews</li>
+<li>Explain your ID is being processed</li>
+</ul>
+
+<p><strong>What to say:</strong></p>
+
+<div class="success">
+“My state ID is currently being processed. I have applied and expect it within a few weeks. I can provide documentation showing it is in progress.”
+</div>
+</div>
+
+<div class="card">
+<h3>5️⃣ If Prison Never Submitted It</h3>
+
+<p>Call your unit’s:</p>
+<ul>
+<li>Reentry office</li>
+<li>Records department</li>
+<li>Classification officer</li>
+</ul>
+
+<p>Ask:</p>
+<ul>
+<li>Was my ID application submitted?</li>
+<li>When?</li>
+<li>What address was used?</li>
+</ul>
+
+<p>Sometimes it was mailed to the wrong address.</p>
+</div>
+
+<div class="card">
+<h3>6️⃣ Help Paying for ID</h3>
+
+<p>If you cannot afford fees, contact:</p>
+
+<ul>
+<li>Salvation Army</li>
+<li>Catholic Charities</li>
+<li>Local reentry programs</li>
+<li>Texas Workforce Commission Reentry Services</li>
+</ul>
+
+<p><a href="https://www.twc.texas.gov" target="_blank" rel="noopener noreferrer">
+Texas Workforce Commission
+</a></p>
+</div>
+
+<div class="card warning">
+⚠ To legally complete employment paperwork (I-9), you must have:
+<ul>
+<li>Government-issued photo ID</li>
+<li>Social Security card (or acceptable alternative)</li>
+</ul>
+Start the process immediately — do not wait on the prison.
+</div>
+
+</div>
+
+<script>
+function goBack() {
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = 'index.html';
+}
+
+function saveChecklist() {
+  const checkboxes = document.querySelectorAll("input[type='checkbox']");
+  const states = [];
+
+  checkboxes.forEach((box) => {
+    states.push(box.checked);
+  });
+
+  localStorage.setItem('idChecklist', JSON.stringify(states));
+  document.getElementById('checkMessage').innerText = `Checklist saved at ${new Date().toLocaleTimeString()}.`;
+}
+
+window.onload = function() {
+  const saved = JSON.parse(localStorage.getItem('idChecklist'));
+  if (saved) {
+    const checkboxes = document.querySelectorAll("input[type='checkbox']");
+    checkboxes.forEach((box, index) => {
+      box.checked = saved[index] || false;
+    });
+    document.getElementById('checkMessage').innerText = 'Loaded your saved checklist from this device.';
+  }
+};
+</script>
+
+</body>
+</html>
