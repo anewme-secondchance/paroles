@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Education Plan | A New Me</title>
+
+<style>
+:root {
+  --brand: #1f3c88;
+  --bg: #eef2f7;
+  --text: #1f2937;
+  --card-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--brand);
+  color: white;
+  padding: 15px;
+}
+
+.back-btn {
+  background: white;
+  color: var(--brand);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: var(--card-shadow);
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+textarea,
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font: inherit;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+button {
+  background: var(--brand);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button.secondary {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.success {
+  margin-top: 10px;
+  color: #166534;
+  font-weight: bold;
+}
+
+a {
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .app-header {
+    padding: 12px;
+  }
+
+  .app-header h1 {
+    font-size: 1.1rem;
+  }
+
+  .container {
+    padding: 14px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="app-header">
+  <button type="button" onclick="goBack()" class="back-btn" aria-label="Go back">&larr; Back</button>
+  <h1>Education & Growth</h1>
+</header>
+
+<main class="container">
+
+<section class="card">
+<h2>Current Education Level</h2>
+<label for="educationLevel">Select your current level</label>
+<select id="educationLevel">
+<option value="">Select One</option>
+<option>Less than High School</option>
+<option>High School Diploma / GED</option>
+<option>Some College</option>
+<option>Associate Degree</option>
+<option>Bachelor's Degree</option>
+<option>Trade / Certification</option>
+</select>
+</section>
+
+<section class="card">
+<h2>Education Goal</h2>
+<label for="educationGoal">What certification, degree, or skill do I want?</label>
+<textarea id="educationGoal"></textarea>
+
+<label for="educationWhy">Why is this important to me?</label>
+<textarea id="educationWhy"></textarea>
+
+<label for="educationDate">Target completion date:</label>
+<input type="date" id="educationDate">
+</section>
+
+<section class="card">
+<h2>Action Steps</h2>
+<label for="step1">Step 1</label>
+<input type="text" id="step1">
+
+<label for="step2">Step 2</label>
+<input type="text" id="step2">
+
+<label for="step3">Step 3</label>
+<input type="text" id="step3">
+</section>
+
+<section class="card">
+<h2>Scholarship Resources</h2>
+<p><a href="https://studentaid.gov/" target="_blank" rel="noopener noreferrer">FAFSA - Federal Student Aid</a></p>
+<p><a href="https://www.fastweb.com/" target="_blank" rel="noopener noreferrer">Fastweb Scholarship Search</a></p>
+<p><a href="https://www.scholarships.com/" target="_blank" rel="noopener noreferrer">Scholarships.com</a></p>
+<p><a href="https://www.goingmerry.com/" target="_blank" rel="noopener noreferrer">Going Merry Scholarship Platform</a></p>
+</section>
+
+<section class="card">
+<h2>Trade School Options</h2>
+<ul>
+<li>Welding</li>
+<li>HVAC Technician</li>
+<li>Commercial Truck Driving (CDL)</li>
+<li>Electrician</li>
+<li>Plumbing</li>
+<li>Automotive Technician</li>
+<li>Medical Assistant</li>
+<li>IT Support Specialist</li>
+</ul>
+<p>
+Search local trade programs at:
+<a href="https://www.careeronestop.org/" target="_blank" rel="noopener noreferrer">CareerOneStop.org</a>
+</p>
+</section>
+
+<section class="card">
+<h2>Online Certification Platforms</h2>
+<p><a href="https://www.coursera.org/" target="_blank" rel="noopener noreferrer">Coursera</a></p>
+<p><a href="https://www.udemy.com/" target="_blank" rel="noopener noreferrer">Udemy</a></p>
+<p><a href="https://www.edx.org/" target="_blank" rel="noopener noreferrer">edX</a></p>
+<p><a href="https://grow.google/certificates/" target="_blank" rel="noopener noreferrer">Google Career Certificates</a></p>
+<p><a href="https://www.microsoft.com/en-us/learning" target="_blank" rel="noopener noreferrer">Microsoft Certifications</a></p>
+</section>
+
+<section class="card">
+<div class="actions">
+  <button type="button" onclick="saveEducation()">Save Education Plan</button>
+  <button type="button" class="secondary" onclick="clearEducation()">Clear Plan</button>
+</div>
+<div id="savedMessage" class="success" aria-live="polite"></div>
+</section>
+
+</main>
+
+<script>
+function goBack() {
+  if (window.history.length > 1) {
+    window.history.back();
+    return;
+  }
+  window.location.href = 'index.html';
+}
+
+function saveEducation() {
+  const plan = {
+    level: document.getElementById('educationLevel').value,
+    goal: document.getElementById('educationGoal').value,
+    why: document.getElementById('educationWhy').value,
+    date: document.getElementById('educationDate').value,
+    step1: document.getElementById('step1').value,
+    step2: document.getElementById('step2').value,
+    step3: document.getElementById('step3').value
+  };
+
+  localStorage.setItem('educationPlan', JSON.stringify(plan));
+
+  localStorage.setItem(
+    'educationPlanCompleted',
+    plan.goal && plan.step1 ? 'Yes' : 'No'
+  );
+
+  document.getElementById('savedMessage').innerText =
+    `Education plan saved at ${new Date().toLocaleTimeString()}.`;
+}
+
+  function updateEducationDashboard() {
+  const raw = localStorage.getItem('educationPlan');
+
+  if (!raw) {
+    localStorage.setItem('educationPlanCompleted', 'No');
+    return;
+  }
+
+  const plan = JSON.parse(raw);
+
+  localStorage.setItem(
+    'educationPlanCompleted',
+    plan.goal && plan.step1 ? 'Yes' : 'No'
+  );
+}
+  
+function loadEducation() {
+  const raw = localStorage.getItem('educationPlan');
+  if (!raw) {
+    return;
+  }
+
+  const saved = JSON.parse(raw);
+  document.getElementById('educationLevel').value = saved.level || '';
+  document.getElementById('educationGoal').value = saved.goal || '';
+  document.getElementById('educationWhy').value = saved.why || '';
+  document.getElementById('educationDate').value = saved.date || '';
+  document.getElementById('step1').value = saved.step1 || '';
+  document.getElementById('step2').value = saved.step2 || '';
+  document.getElementById('step3').value = saved.step3 || '';
+  document.getElementById('savedMessage').innerText = 'Loaded your previous education plan from this device.';
+}
+
+function clearEducation() {
+  document.getElementById('educationLevel').value = '';
+  document.getElementById('educationGoal').value = '';
+  document.getElementById('educationWhy').value = '';
+  document.getElementById('educationDate').value = '';
+  document.getElementById('step1').value = '';
+  document.getElementById('step2').value = '';
+  document.getElementById('step3').value = '';
+
+  localStorage.removeItem('educationPlan');
+  localStorage.setItem('educationPlanCompleted', 'No');
+
+  document.getElementById('savedMessage').innerText =
+    'Education plan cleared.';
+}
+  
+loadEducation();
+updateEducationDashboard();
+</script>
+
+</body>
+</html>
