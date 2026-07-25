@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Builder | A New Me</title>
+<style>body{margin:0;font-family:Arial,sans-serif;background:#eef2f7}.app-header{display:flex;align-items:center;background:#1f3c88;color:#fff;padding:15px}.back-btn{background:#fff;color:#1f3c88;border:none;padding:6px 14px;border-radius:20px;cursor:pointer;margin-right:15px;font-weight:700}.container{padding:20px;max-width:900px;margin:auto}.card{background:#fff;padding:20px;border-radius:12px;margin-bottom:20px;box-shadow:0 4px 10px rgba(0,0,0,.08)}input,textarea{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #ccc;box-sizing:border-box}button{background:#1f3c88;color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;margin-top:10px}.example{background:#f4f6fb;padding:15px;border-radius:8px;margin-top:10px}.resume-preview{background:#fff;padding:20px;border-radius:10px;border:1px solid #ddd;margin-top:15px}.support-message{background:#e8f0ff;padding:12px;border-radius:8px;margin-bottom:15px}.success-message{margin-top:15px;font-weight:700;color:#1f3c88}</style>
+</head>
+<body>
+<div class="app-header">
+<button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+<div>📄 Resume Builder</div>
+</div>
+<div class="container">
+<div class="card">
+<h3>Step 1: Resume Structure</h3>
+<p>A strong resume includes:</p>
+<ul>
+<li>Full Name + Contact Info</li>
+<li>Professional Summary</li>
+<li>Skills</li>
+<li>Work Experience</li>
+<li>Education</li>
+<li>Certifications</li>
+</ul>
+</div>
+<div class="card">
+<h3>Step 2: Full Resume Example</h3>
+<div class="example">
+<strong>Marcus Hill</strong>
+<br>Tyler, TX<br>(903) 555-1234<br>marcushill@email.com<br>
+<br>
+<strong>Professional Summary</strong>
+<br>Reliable and hardworking individual with 4+ years experience in food service and facility maintenance.<br>
+<br>
+<strong>Skills</strong>
+<br>• Teamwork<br>• Time Management<br>• Equipment Operation<br>• OSHA Safety Compliance<br>
+<br>
+<strong>Work Experience</strong>
+<br>Kitchen Worker | 2019-2023<br>• Prepared meals for 1,500+ daily<br>
+<br>
+<strong>Education</strong>
+<br>GED | 2018<br>
+<br>
+<strong>Certifications</strong>
+<br>• Food Handler<br>• OSHA 10</div>
+</div>
+<div class="card">
+<h3>Step 3: Build Your Resume</h3>
+<div class="support-message">Start simple. Your first resume does not have to be perfect.</div>
+<label for="name">Full Name</label>
+<input id="name" type="text">
+<label for="location">City & State</label>
+<input id="location" type="text">
+<label for="phone">Phone</label>
+<input id="phone" type="text">
+<label for="email">Email</label>
+<input id="email" type="text">
+<label for="summary">Professional Summary</label>
+<textarea id="summary">
+</textarea>
+<label for="skills">Skills (comma separated)</label>
+<textarea id="skills">
+</textarea>
+<label for="experience">Work Experience</label>
+<textarea id="experience">
+</textarea>
+<label for="education">Education</label>
+<textarea id="education">
+</textarea>
+<label for="certifications">Certifications</label>
+<textarea id="certifications">
+</textarea>
+<button type="button" onclick="saveResume()">Save Resume</button>
+<button type="button" onclick="generateResume()">Generate My Resume</button>
+<p id="saveMessage" aria-live="polite">
+</p>
+</div>
+<div class="card">
+<h3>Your Generated Resume</h3>
+<div id="resumePreview" class="resume-preview">
+</div>
+<p id="confidenceMessage" class="success-message">
+</p>
+</div>
+<div class="card">
+<h3>Step 4: Resume Quality Checklist</h3>
+<ul>
+<li>No spelling errors</li>
+<li>No prison facility name listed</li>
+<li>Focus on skills learned</li>
+<li>Keep it 1 page</li>
+<li>Professional email address</li>
+</ul>
+</div>
+</div>
+<script>function goBack(){if(window.history.length>1){window.history.back();return;}window.location.href='index.html';}const fields=['name','location','phone','email','summary','skills','experience','education','certifications'];function esc(v){return v.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;');}function saveResume(){fields.forEach(id=>localStorage.setItem(id,document.getElementById(id).value));saveMessage.innerText=`Resume saved at ${new Date().toLocaleTimeString()}.`;}function generateResume(){const values={};fields.forEach(id=>values[id]=document.getElementById(id).value);const skillsList=values.skills.split(',').filter(Boolean).map(s=>`• ${esc(s.trim())}<br>`).join('');resumePreview.innerHTML=`<h2>${esc(values.name)}</h2>${esc(values.location)}<br>${esc(values.phone)}<br>${esc(values.email)}<br>
+<br>
+<strong>Professional Summary</strong>
+<br>${esc(values.summary)}<br>
+<br>
+<strong>Skills</strong>
+<br>${skillsList}<br>
+<strong>Work Experience</strong>
+<br>${esc(values.experience)}<br>
+<br>
+<strong>Education</strong>
+<br>${esc(values.education)}<br>
+<br>
+<strong>Certifications</strong>
+<br>${esc(values.certifications)}`;confidenceMessage.innerText='Great start. You now have a basic resume. You can improve it anytime.';}window.onload=function(){fields.forEach(id=>document.getElementById(id).value=localStorage.getItem(id)||'');};</script>
+</body>
+</html>
