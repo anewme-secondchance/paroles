@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resource Directory | A New Me</title>
+<style>body{margin:0;font-family:Arial;background:#eef2f7}.header{background:#1f3c88;color:#fff;padding:20px;display:flex;align-items:center}.back-btn{background:#fff;color:#1f3c88;border:none;padding:6px 14px;border-radius:20px;cursor:pointer;margin-right:15px;font-weight:700}.container{padding:20px;max-width:1000px;margin:auto}.card{background:#fff;padding:15px;border-radius:10px;margin-bottom:12px;box-shadow:0 3px 8px rgba(0,0,0,.08)}.save-btn{background:#ff914d;border:none;padding:6px 10px;border-radius:5px;cursor:pointer;color:#fff;margin-top:8px}input,select{padding:8px;margin-bottom:8px;width:100%;max-width:400px;box-sizing:border-box}</style>
+</head>
+<body>
+<div class="header">
+<button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+<h2>Texas Reentry Resource Directory</h2>
+</div>
+<div class="container">
+<div class="card" style="background:#fff3cd;border-left:6px solid #ff914d;">
+<strong>🚨 Emergency Quick Help</strong>
+<br>
+<br>📞 <strong>911</strong> – Immediate danger or medical emergency<br>
+<br>🧠 <strong>988</strong> – Mental Health Crisis & Suicide Lifeline<br>
+<a href="tel:988">Call 988</a>
+<br>
+<br>📲 <strong>211 Texas</strong> – Housing, food, transportation, utilities, shelter<br>
+<a href="tel:211">Call 211</a> | <a href="https://www.211texas.org" target="_blank" rel="noopener noreferrer">211Texas.org</a>
+<br>
+<br>
+<em>If you are in crisis, do not wait. Call immediately.</em>
+</div>
+<input type="text" id="searchInput" placeholder="Search by name..." onkeyup="renderResources()">
+<select id="cityFilter" onchange="renderResources()">
+<option value="">All Cities</option>
+<option>Tyler</option>
+<option>Dallas</option>
+<option>Houston</option>
+<option>Statewide</option>
+</select>
+<select id="categoryFilter" onchange="renderResources()">
+<option value="">All Categories</option>
+<option>Housing</option>
+<option>Employment</option>
+<option>Health</option>
+<option>Legal</option>
+<option>Transportation</option>
+<option>ID Recovery</option>
+<option>Multi-Service</option>
+</select>
+<h3>Saved Resources</h3>
+<div id="savedList">
+</div>
+<h3>All Resources</h3>
+<div id="resourceList">
+</div>
+</div>
+<script>function goBack(){if(window.history.length>1){window.history.back();return;}window.location.href='index.html';}const resources=[{name:'Bethesda Health Clinic',city:'Tyler',category:'Health',phone:'903-596-8353',website:'https://www.bethesdaclinic.org',notes:'Free and low-cost medical and dental care for uninsured residents.'},{name:'ETBU Counseling Center',city:'Tyler',category:'Health',phone:'903-923-2360',website:'',notes:'Call Marshall office and request transfer to Tyler Counseling Center. Email: counseling@etbu.edu'},{name:'Salvation Army',city:'Tyler',category:'Housing',phone:'903-592-4361',website:'https://www.salvationarmyusa.org',notes:'Emergency shelter and rental assistance.'},{name:'Texas Workforce Commission',city:'Statewide',category:'Employment',phone:'800-939-6631',website:'https://www.twc.texas.gov',notes:'Job search support and reentry employment assistance.'},{name:'211 Texas',city:'Statewide',category:'Multi-Service',phone:'211',website:'https://www.211texas.org',notes:'Housing, food, transportation, utilities, mental health, emergency assistance.'},{name:'TDCJ Reentry & Integration Division (RRD)',city:'Statewide',category:'ID Recovery',phone:'',website:'https://www.tdcj.texas.gov/divisions/rrd/index.html',notes:'Official reentry services including ID help and transition planning.'},{name:'Texas DPS - Driver License Offices',city:'Statewide',category:'ID Recovery',phone:'',website:'https://www.dps.texas.gov/section/driver-license/driver-license-office-locations',notes:'Apply for state ID or driver license. Request temporary paper ID.'},{name:'Local Public Transportation',city:'Tyler',category:'Transportation',phone:'',website:'',notes:"Check your city's public transit system for reduced fares and work transport assistance."}];function renderResources(){const search=searchInput.value.toLowerCase();const city=cityFilter.value;const category=categoryFilter.value;resourceList.innerHTML='';resources.forEach((r,i)=>{if(r.name.toLowerCase().includes(search)&&(city===''||r.city===city)&&(category===''||r.category===category)){resourceList.innerHTML+=`<div class="card">
+<strong>${r.name}</strong>
+<br>${r.city} – ${r.category}<br>${r.phone?`📞 <a href="tel:${r.phone}">${r.phone}</a>
+<br>`:''}${r.website?`🌐 <a href="${r.website}" target="_blank" rel="noopener noreferrer">Website</a>
+<br>`:''}${r.notes?`<em>${r.notes}</em>
+<br>`:''}<button class="save-btn" onclick="saveResource(${i})">Save</button>
+</div>`;}});}function saveResource(index){let saved=JSON.parse(localStorage.getItem('savedResources'))||[];const candidate=resources[index];if(!saved.find(s=>s.name===candidate.name&&s.city===candidate.city))saved.push(candidate);localStorage.setItem('savedResources',JSON.stringify(saved));renderSaved();}function renderSaved(){savedList.innerHTML='';let saved=JSON.parse(localStorage.getItem('savedResources'))||[];saved.forEach(r=>{savedList.innerHTML+=`<div class="card">
+<strong>${r.name}</strong>
+<br>${r.city} – ${r.category}</div>`;});}renderResources();renderSaved();</script>
+</body>
+</html>
