@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback Survey | A New Me</title>
+<style>body{margin:0;font-family:'Segoe UI',Arial,sans-serif;background:#eef2f7}.header{background:linear-gradient(135deg,#1f3c88,#2a5298);color:#fff;padding:20px;text-align:center;position:relative}.back-btn{position:absolute;left:15px;top:18px;background:#fff;color:#1f3c88;border:none;padding:6px 14px;border-radius:20px;cursor:pointer;font-weight:700}.container{padding:15px}iframe{width:100%;height:95vh;border:none;border-radius:10px;background:#fff}</style>
+</head>
+<body>
+<div class="header">
+<button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+<h2>📝 Help Us Improve</h2>
+</div>
+<div class="container" id="surveyContainer">
+</div>
+<script>const formLink='https://docs.google.com/forms/d/e/1FAIpQLSdHkn_0W2xaXeeErb5x9hnT3I7CQLUm9-NyAA2E4jd549Jq8w/viewform';const embedLink=formLink+'?embedded=true';const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);if(isIOS){window.location.href=formLink;}else{surveyContainer.innerHTML=`<iframe src="${embedLink}">Loading…</iframe>`;}function goBack(){if(window.history.length>1){window.history.back();return;}window.location.href='index.html';}</script>
+</body>
+</html>
