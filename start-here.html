@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First 7 Days | A New Me</title>
+<style>body{margin:0;font-family:Arial,sans-serif;background:#eef2f7}.app-header{display:flex;align-items:center;background:#1f3c88;color:#fff;padding:15px}.back-btn{background:#fff;color:#1f3c88;border:none;padding:6px 14px;border-radius:20px;cursor:pointer;margin-right:15px;font-weight:700}.container{padding:20px;max-width:900px;margin:auto}.card{background:#fff;padding:20px;border-radius:12px;margin-bottom:20px;box-shadow:0 4px 10px rgba(0,0,0,.08)}.check-item{margin-top:10px}button{background:#1f3c88;color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;margin-top:10px}.progress-text{font-weight:700;margin-top:10px}.progress-bar-container{width:100%;background:#ddd;border-radius:20px;overflow:hidden;margin-top:10px}.progress-bar{height:15px;width:0%;background:#4CAF50;transition:width .4s ease}</style>
+</head>
+<body>
+<div class="app-header">
+<button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+<div>🚀 First 7 Days After Release</div>
+</div>
+<div class="container">
+<div class="card">
+<h3>Focus Only On These Basics</h3>
+<div class="check-item">
+<label>
+<input type="checkbox" id="task1"> Start ID process</label>
+</div>
+<div class="check-item">
+<label>
+<input type="checkbox" id="task2"> Confirm housing plan</label>
+</div>
+<div class="check-item">
+<label>
+<input type="checkbox" id="task3"> Apply for at least 5 jobs</label>
+</div>
+<div class="check-item">
+<label>
+<input type="checkbox" id="task4"> Contact probation/parole officer</label>
+</div>
+<div class="check-item">
+<label>
+<input type="checkbox" id="task5"> Create transportation plan</label>
+</div>
+<div class="check-item">
+<label>
+<input type="checkbox" id="task6"> Set 1 short-term goal</label>
+</div>
+<button type="button" onclick="saveProgress()">Save Progress</button>
+<div class="progress-text" id="progressText" aria-live="polite">
+</div>
+<div class="progress-bar-container">
+<div class="progress-bar" id="progressBar">
+</div>
+</div>
+</div>
+<div class="card">
+<h3>Remember</h3>
+<p>You do not need to fix everything in one week.</p>
+<p>Stability first. Everything else comes later.</p>
+</div>
+</div>
+<script>function goBack(){if(window.history.length>1){window.history.back();return;}window.location.href='index.html';}const tasks=['task1','task2','task3','task4','task5','task6'];function updateProgress(){let c=0;tasks.forEach(t=>{if(document.getElementById(t).checked)c++;});progressText.innerText=`Progress: ${c} of 6 completed`;progressBar.style.width=(c/tasks.length)*100+'%';}function saveProgress(){tasks.forEach(t=>localStorage.setItem(t,document.getElementById(t).checked));updateProgress();}window.onload=function(){tasks.forEach(t=>document.getElementById(t).checked=localStorage.getItem(t)==='true');updateProgress();};</script>
+</body>
+</html>
