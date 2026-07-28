@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Choose Your Path | A New Me</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#eef2f7;
+}
+
+.app-header{
+    display:flex;
+    align-items:center;
+    background:#1f3c88;
+    color:white;
+    padding:15px;
+}
+
+.back-btn{
+    background:white;
+    color:#1f3c88;
+    border:none;
+    padding:6px 14px;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:bold;
+    margin-right:15px;
+}
+
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    padding:25px;
+    margin-bottom:20px;
+    box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
+
+.card h2{
+    margin-top:0;
+    color:#1f3c88;
+    text-align:center;
+}
+
+.card p{
+    text-align:center;
+    color:#555;
+    margin-bottom:25px;
+}
+
+.option{
+    border:2px solid #d9e2f2;
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:15px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.option:hover{
+    border-color:#1f3c88;
+    background:#f7faff;
+}
+
+.option input{
+    margin-right:10px;
+    transform:scale(1.2);
+}
+
+.option-title{
+    font-size:20px;
+    font-weight:bold;
+    color:#1f3c88;
+}
+
+.option-desc{
+    margin-top:8px;
+    margin-left:28px;
+    color:#555;
+    line-height:1.5;
+}
+
+.continue-btn{
+    width:100%;
+    background:#1f3c88;
+    color:white;
+    border:none;
+    padding:14px;
+    border-radius:8px;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:15px;
+}
+
+.continue-btn:hover{
+    background:#17306d;
+}
+
+.message{
+    text-align:center;
+    color:#b91c1c;
+    font-weight:bold;
+    margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app-header">
+    <button type="button" onclick="goBack()" class="back-btn">&larr; Back</button>
+    <div>Choose Your Path</div>
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Welcome to A New Me™</h2>
+
+<p>
+Tell us where you are in your journey so we can personalize your experience.
+</p>
+
+ <label class="option">
+    <input type="radio" name="path" value="probation">
+
+    <span class="option-title">🛡️ Probation</span>
+
+    <div class="option-desc">
+        I am currently on probation and want help staying compliant,
+        reaching my goals, finding employment, and successfully completing
+        probation.
+    </div>
+</label>
+
+<label class="option">
+    <input type="radio" name="path" value="parole">
+
+    <span class="option-title">🚦 Parole</span>
+
+    <div class="option-desc">
+        I am currently on parole and want resources, reminders,
+        employment support, housing assistance, and guidance while
+        successfully completing parole.
+    </div>
+</label>
+
+<label class="option">
+    <input type="radio" name="path" value="release">
+
+    <span class="option-title">🏠 Recently Released</span>
+
+    <div class="option-desc">
+        I have recently been released from incarceration and need help
+        rebuilding my life through employment, housing, identification,
+        education, and community resources.
+    </div>
+</label>
+
+<label class="option">
+    <input type="radio" name="path" value="family">
+
+    <span class="option-title">❤️ Family / Support Person</span>
+
+    <div class="option-desc">
+        I am supporting someone on probation, parole, or after release
+        and want resources to help them succeed.
+    </div>
+</label>
+
+<button type="button" class="continue-btn" onclick="continueApp()">
+    Continue
+</button>
+
+<div id="message" class="message"></div>
+
+</div>
+
+</div> 
+
+  <script>
+function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+        return;
+    }
+
+    window.location.href = "start-here.html";
+}
+
+function continueApp() {
+
+    const selected = document.querySelector('input[name="path"]:checked');
+
+    if (!selected) {
+        document.getElementById("message").innerText =
+            "Please choose an option before continuing.";
+        return;
+    }
+
+    // Save the user's selected path
+    localStorage.setItem("userPath", selected.value);
+
+    // Optional: Save a readable name
+    switch (selected.value) {
+        case "probation":
+            localStorage.setItem("userPathName", "Probation");
+            break;
+
+        case "parole":
+            localStorage.setItem("userPathName", "Parole");
+            break;
+
+        case "release":
+            localStorage.setItem("userPathName", "Recently Released");
+            break;
+
+        case "family":
+            localStorage.setItem("userPathName", "Family / Support Person");
+            break;
+    }
+
+    // Go to your existing dashboard
+    window.location.href = "dashboard.html";
+}
+</script>
+
+</body>
+</html>
